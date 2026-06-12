@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he" class="no-js">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAMOS · Hero Lab (sandbox)</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="מעבדת הירו של גאמוס — תצוגה מקדימה. סצנת גלילה נעוצה: סאבג'קט מדבר עולה וממלא את אותיות הלוגו, שני עננים נפרשים, עשן עולה." />
+
+  <!-- Progressive enhancement: flip no-js → js BEFORE first paint so the
+       animation start-states apply without a flash. With JS disabled this
+       class never appears and the full static composition stays visible. -->
+  <script>document.documentElement.classList.remove("no-js");document.documentElement.classList.add("js");</script>
+
+  <!-- Lenis smooth-scroll reset (sandbox vendor, self-hosted) -->
+  <link rel="stylesheet" href="./assets/vendor/lenis.css" />
+  <link rel="stylesheet" href="./css/hero-lab.css" />
+
+  <!-- LCP candidate: the mobile sky backdrop -->
+  <link rel="preload" as="image" href="./assets/sky-mobile.webp" fetchpriority="high" />
+</head>
+<body>
+  <a class="skip-link" href="#hero-content">דלגו לתוכן</a>
+
+  <!-- ===================== HERO ROOT (500vh scroll track) ===================== -->
+  <section class="hero_root" id="hero" aria-label="פתיח גאמוס">
+    <!-- The sticky stage stays pinned for the full 500vh scroll. -->
+    <div class="hero_top">
+
+      <!-- sr-only headline for screen readers / visual-only scene -->
+      <h1 class="sr-only">GAMOS Events · גני אירועים וריזורט במישור אדומים</h1>
+
+      <!-- L1 · sky (FIND hero_back) -->
+      <div class="layer layer--sky" data-layer="sky" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 768px)" srcset="./assets/sky-mobile.webp" />
+          <img src="./assets/sky.webp" alt="" decoding="async" />
+        </picture>
+      </div>
+
+      <!-- L2 · subject: the rising cut-out ridge (FIND hero_house) -->
+      <div class="layer layer--subject" data-layer="subject" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 768px)" srcset="./assets/subject-mobile.webp" />
+          <img src="./assets/subject.webp" alt="" decoding="async" />
+        </picture>
+      </div>
+
+      <!-- L3 · maskfill: a SECOND copy of the subject, seen only through the
+           GAMOS / Events letters via an inline SVG image-mask (FIND hero_composite).
+           Hidden at rest, fills across scroll. -->
+      <div class="layer layer--maskfill" data-layer="maskfill" aria-hidden="true">
+        <svg class="wordmark-svg" viewBox="0 0 1000 460" preserveAspectRatio="xMidYMid meet" role="presentation" focusable="false">
+          <defs>
+            <mask id="gamosLetters" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="460">
+              <rect width="1000" height="460" fill="#000" />
+              <text class="wordmark-svg__lg" x="500" y="295" text-anchor="middle"
+                    font-family="Cinzel" font-weight="700" font-size="250" letter-spacing="10" fill="#fff">GAMOS</text>
+              <text class="wordmark-svg__sm" x="500" y="420" text-anchor="middle"
+                    font-family="Cinzel" font-weight="700" font-size="86" letter-spacing="34" fill="#fff">EVENTS</text>
+            </mask>
+          </defs>
+          <image href="./assets/subject.webp" x="0" y="0" width="1000" height="460"
+                 preserveAspectRatio="xMidYMid slice" mask="url(#gamosLetters)" />
+        </svg>
+      </div>
+
+      <!-- L4 · clouds: two DISTINCT cut-outs entering / spreading from the sides
+           (FIND hero_clouds) -->
+      <div class="layer layer--clouds" data-layer="clouds" aria-hidden="true">
+        <img class="cloud cloud--start" src="./assets/cloud-right.webp" alt="" decoding="async" />
+        <img class="cloud cloud--end" src="./assets/cloud-left.webp" alt="" decoding="async" />
+      </div>
+
+      <!-- L5 · outline wordmark: the same letters as a hollow stroke, fading out
+           as the image-fill rises (FIND hero_logo) -->
+      <div class="layer layer--outline" data-layer="outline" aria-hidden="true">
+        <svg class="wordmark-svg" viewBox="0 0 1000 460" preserveAspectRatio="xMidYMid meet" role="presentation" focusable="false">
+          <text class="wordmark-svg__lg" x="500" y="295" text-anchor="middle"
+                font-family="Cinzel" font-weight="700" font-size="250" letter-spacing="10">GAMOS</text>
+          <text class="wordmark-svg__sm" x="500" y="420" text-anchor="middle"
+                font-family="Cinzel" font-weight="700" font-size="86" letter-spacing="34">EVENTS</text>
+        </svg>
+      </div>
+
+      <!-- L6 · smoke: a separate rising haze band (FIND hero_smoke) -->
+      <div class="layer layer--smoke" data-layer="smoke" aria-hidden="true">
+        <img class="smoke__img" src="./assets/smoke.webp" alt="" decoding="async" />
+      </div>
+
+      <!-- L7 · cream veil that dissolves the hero into the next section (FIND hero_overlay) -->
+      <div class="layer layer--veil" data-layer="veil" aria-hidden="true"></div>
+
+      <!-- L8 · content (FIND hero_content) -->
+      <div class="layer layer--content" data-layer="content">
+        <div class="hero-content" id="hero-content">
+          <p class="hero-content__eyebrow">מישור אדומים · צעד מירושלים</p>
+          <p class="hero-content__headline">
+            על קצה המדבר,<br />
+            <span class="hero-content__headline-soft">רגע שיישאר איתכם.</span>
+          </p>
+          <p class="hero-content__sub">
+            גני אירועים וריזורט, מול נוף שלא צריך הסבר.
+          </p>
+          <div class="hero-content__cta">
+            <a class="btn btn--primary" href="#">גני האירועים</a>
+            <a class="btn btn--ghost" href="#">הריזורט</a>
+          </div>
+        </div>
+        <div class="scroll-cue" aria-hidden="true">
+          <span class="scroll-cue__label">גללו</span>
+          <span class="scroll-cue__dot"></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== NEXT SECTION (proves the dissolve) ===================== -->
+  <section class="after" aria-label="המשך">
+    <div class="after__inner">
+      <p class="after__kicker">GAMOS</p>
+      <h2 class="after__title">כאן מתחילה החגיגה</h2>
+      <p class="after__body">
+        זוהי סקציית הבדיקה שאחרי ההירו. כשהמדבר עולה והעננים נפתחים, מסך הקרם
+        מתמזג אל תוך החלל הזה. (תצוגת מעבדה בלבד.)
+      </p>
+    </div>
+  </section>
+
+  <!-- vendor: GSAP core + ScrollTrigger + Lenis (all self-hosted in sandbox) -->
+  <script src="./assets/vendor/gsap.min.js" defer></script>
+  <script src="./assets/vendor/ScrollTrigger.min.js" defer></script>
+  <script src="./assets/vendor/lenis.min.js" defer></script>
+  <script src="./js/hero-lab.js" type="module"></script>
+</body>
+</html>
