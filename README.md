@@ -51,21 +51,17 @@ with no drift.
 
 ## Assets (all local to this sandbox)
 
-Built by `node hero-lab/scripts/build-assets.mjs` (reads READ-ONLY masters under
-`GAMOS-DOCS`, writes only into `hero-lab/assets/`):
+Current asset choices:
 
-- `sky.webp` / `sky-mobile.webp` — warm desert sky backdrop (from
-  `HERO/comfy/z-image-upscaled_00003`). *(The plan named `…_00001`, but that file
-  is a screenshot of the FIND website itself — burned-in title + logo — so it was
-  NOT used as a backdrop.)*
-- `subject.webp` / `subject-mobile.webp` — the rising cut-out ridge, from
-  `HERO/מדבר-2.png`, which already carries a **real transparent sky** (clean
-  alpha), so it needs no background-removal. This is the truest equivalent of
-  FIND's landform-against-sky `house.png`.
-- `cloud-left.webp` + `cloud-right.webp` — two **distinct, non-overlapping**
-  luminance-keyed cloud cut-outs from the lower cloud band of
-  `HERO/comfy/z-image-upscaled_00002`.
-- `smoke.webp` — a soft, heavily-blurred low haze strip (same source, lower band).
+- `sky.webp` / `sky-mobile.webp` — temporary warm desert sky backdrop. This will
+  be replaced when the final back-sky image is supplied.
+- `subject.webp` / `subject-mobile.webp` — the rising transparent desert layer,
+  generated from `GAMOS-DOCS/תמונות לאנימציית האתר/HERO/מדבר-2.png`. The source
+  is RGBA and already carries a real transparent background.
+- `cloud-left.webp` + `cloud-right.webp` — the original supplied FIND cloud
+  image, exported twice for the existing left/right layer wiring. The right side
+  is mirrored in CSS.
+- `smoke.webp` — the original supplied FIND smoke image with alpha.
 
 ### Note on `@imgly/background-removal-node`
 
