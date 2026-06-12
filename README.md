@@ -6,13 +6,15 @@ Real Estate** layered-pinned-scroll effect (source project:
 re-skinned with **GAMOS assets + Hebrew copy only**. Nothing here is wired into
 the production site — it is fully isolated.
 
-Preview: serve the repo root and open **`/hero-lab/`**.
+Preview: serve the repo root and open **`/`**.
 
 ```bash
-# from GAMOS-SITE/
-npx serve . -p 8000      # then visit http://localhost:8000/hero-lab/
-# or
+# from this repo folder
 python -m http.server 8000
+# then visit http://localhost:8000/
+
+# or with Node
+npx serve . -p 8000
 ```
 
 ## What it is — the FIND recipe, faithfully
@@ -83,10 +85,17 @@ dependency remains available for a future opaque-structure subject.
 
 `js/hero-lab.js` keeps a **single** ScrollTrigger that writes one `--p` (0→1)
 variable; every layer derives its motion from `--p` via CSS `calc()`. A separate
-entrance timeline tweens `--enter` (0→1) on load. (Faithful spirit of FIND's two
-ScrollTriggers, but one scrubbed variable avoids double-write conflicts; the
-soft-entry feel is achieved with per-layer offset multipliers in CSS.) Lenis feeds
-ScrollTrigger. `document.fonts.ready` triggers `ScrollTrigger.refresh()` — the SVG
+entrance timeline tweens `--enter` (0→1) on load.
+
+The content text now mirrors FIND's text entrance pattern:
+
+- the headline is split into word wrappers (`.word-reveal` / `.word-reveal__inner`);
+- each word animates from `y:"115%"` to `y:"0%"` with `stagger` and `power4.out`;
+- eyebrow, sub-copy and CTAs animate with fade + `y:70 → 0` using `expo.out`;
+- text typography uses FIND's self-hosted **Instrument Sans** and **Lora** files
+  from `assets/fonts/find/`, with Hebrew-safe local fallbacks.
+
+Lenis feeds ScrollTrigger. `document.fonts.ready` triggers `ScrollTrigger.refresh()` — the SVG
 `<text>` mask + outline are geometry-load-bearing on Cinzel.
 
 ## Fallbacks (avoid FIND's white-screen bug)
