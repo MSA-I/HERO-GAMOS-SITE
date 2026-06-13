@@ -53,8 +53,8 @@ with no drift.
 
 Current asset choices:
 
-- `sky.webp` / `sky-mobile.webp` — temporary warm desert sky backdrop. This will
-  be replaced when the final back-sky image is supplied.
+- `sky.webp` / `sky-mobile.webp` — final supplied warm back-sky image, exported
+  from the uploaded JPEG into optimized WebP sizes.
 - `subject.webp` / `subject-mobile.webp` — the rising transparent desert layer,
   generated from `GAMOS-DOCS/תמונות לאנימציית האתר/HERO/מדבר-2.png`. The source
   is RGBA and already carries a real transparent background.

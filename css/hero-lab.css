@@ -1,47 +1,8 @@
 /* =========================================================================
-   GAMOS · Hero Lab — sandbox stylesheet
-   Faithful to the "FIND" layered-pinned-scroll pattern (see
-   findrealestate-clone/איך-ההירו-בנוי.md), with GAMOS assets + palette.
-   8 layers: sky → subject (rising cut-out) → maskfill (subject through the
-   GAMOS letters) → 2 distinct clouds → outline letters → smoke → veil → content.
-   Self-contained: palette / fonts duplicated locally so the sandbox needs
-   nothing from the production css/ tree.
+   GAMOS · Hero Lab — FIND parity test stylesheet
+   Temporary QA mode: use FIND's pinned-scroll layout and animation targets.
    ========================================================================= */
 
-/* ---- fonts (local copies) ---- */
-@font-face {
-  font-family: "Instrument Sans";
-  font-style: normal;
-  font-weight: 400 700;
-  font-stretch: 100%;
-  font-display: swap;
-  src: url("../assets/fonts/find/instrument-sans-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Instrument Sans Fallback";
-  src: local("Arial");
-  ascent-override: 94.42%;
-  descent-override: 24.33%;
-  line-gap-override: 0%;
-  size-adjust: 102.74%;
-}
-@font-face {
-  font-family: "Lora";
-  font-style: normal;
-  font-weight: 400 700;
-  font-display: swap;
-  src: url("../assets/fonts/find/lora-latin.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
-  font-family: "Lora Fallback";
-  src: local("Times New Roman");
-  ascent-override: 87.33%;
-  descent-override: 23.78%;
-  line-gap-override: 0%;
-  size-adjust: 115.20%;
-}
 @font-face {
   font-family: "Cinzel";
   font-style: normal;
@@ -50,131 +11,76 @@
   src: url("../assets/fonts/cinzel-700.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Rubik";
-  font-style: normal;
-  font-weight: 400 600;
-  font-display: swap;
-  src: url("../assets/fonts/rubik-hebrew.woff2") format("woff2");
-}
-@font-face {
   font-family: "Heebo";
   font-style: normal;
-  font-weight: 400 500;
+  font-weight: 400;
   font-display: swap;
-  src: url("../assets/fonts/heebo-500.woff2") format("woff2");
+  src: url("../assets/fonts/heebo-400.woff2") format("woff2");
 }
 
 :root {
-  /* §5 palette (mirrored locally) */
-  --brass: #cfae83;
-  --brass-deep: #8b6f46;
-  --cocoa: #534133;
   --ivory: #f5efe6;
-  --mist: #e8dfd3;
-  --ink-deep: #1a1410;
-  --accent-rose: #b8576f;
-
-  --font-display: "Instrument Sans", "Instrument Sans Fallback", "Heebo", "Rubik", system-ui, sans-serif;
-  --font-body: "Instrument Sans", "Instrument Sans Fallback", "Heebo", "Rubik", system-ui, sans-serif;
-  --font-secondary: "Lora", "Lora Fallback", Georgia, serif;
-  --font-wordmark: "Cinzel", "Lora", "Playfair Display", Georgia, serif;
-
-  /* Per-scene scroll progress (0..1) written by JS via ScrollTrigger scrub.
-     Kept in CSS so the static no-JS / reduced-motion composition reuses the
-     exact same layout maths and reads as a finished frame at progress 0. */
-  --p: 0;
-  /* Entrance progress (0 = hidden/offset, 1 = settled). Default 1 so no-JS and
-     the pre-paint frame show the finished hero. JS sets it to 0 then tweens it
-     back to 1 for the load choreography. Composes additively with --p so the
-     two timelines never fight over inline transforms. */
-  --enter: 1;
-
+  --ink: #151717;
+  --brass: #cfae83;
   --ease-cinema: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* JS is present → assume the entrance will be animated (start hidden). The JS
-   module GUARANTEES to either tween --enter to 1 or, on any fallback/error,
-   set it to 1 immediately — so a JS-enabled-but-GSAP-missing path is safe. */
-html.js { --enter: 0; }
-html.no-js { --enter: 1; }
-
 * { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-}
-
+html, body { margin: 0; padding: 0; }
 body {
-  background: var(--ivory);
-  color: var(--ink-deep);
-  font-family: var(--font-body);
+  background: #fff;
+  color: var(--ink);
+  font-family: "Heebo", system-ui, sans-serif;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  overflow-x: hidden;
 }
 
 .sr-only {
   position: absolute;
-  width: 1px; height: 1px;
-  padding: 0; margin: -1px;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
 }
+.skip-link { display: none; }
 
-.skip-link {
-  position: absolute;
-  inset-block-start: -100px;
-  inset-inline-start: 16px;
-  z-index: 999;
-  background: var(--ink-deep);
-  color: var(--ivory);
-  padding: 10px 18px;
-  border-radius: 999px;
-  text-decoration: none;
-  font-family: var(--font-display);
-  transition: inset-block-start 0.2s var(--ease-cinema);
-}
-.skip-link:focus { inset-block-start: 16px; }
-
-/* =========================================================================
-   HERO ROOT — the 500vh scroll track + sticky stage (faithful to FIND)
-   .hero_root { height:500vh; margin-bottom:-100vh }  .hero_top { sticky }
-   ========================================================================= */
+/* FIND: root 350vh mobile, 500vh desktop, next section pulled upward. */
 .hero_root {
   position: relative;
-  height: 500vh;
-  /* pull the following section up so the cream veil dissolves over it */
-  margin-block-end: -100vh;
+  height: 350vh;
+  margin-bottom: -100vh;
+  visibility: hidden;
+}
+html.is-ready .hero_root { visibility: visible; }
+@media (min-width: 768px) {
+  .hero_root { height: 500vh; }
 }
 
 .hero_top {
   position: sticky;
-  inset-block-start: 0;
+  top: 0;
   height: 100vh;
   overflow: hidden;
-  background: var(--ivory);
+  background: #fff;
 }
 
-/* shared layer scaffold */
 .layer {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
 }
 
-/* ---- L1 · sky (FIND hero_back) ---- */
+/* FIND hero_bg / hero_back */
 .layer--sky {
-  z-index: 1;
-  /* gradient sits behind the photo so the frame is never empty before decode */
-  background: linear-gradient(180deg, #efe4d2 0%, #ecdcc6 32%, var(--mist) 70%, var(--ivory) 100%);
-  transform: scale(calc(1 + var(--p) * 0.05));
-  transform-origin: 50% 50%;
-  will-change: transform;
+  z-index: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, #aeb8bd 0%, #eac991 55%, #f59b43 100%);
+  transform-origin: center center;
 }
 .layer--sky picture,
 .layer--sky img {
@@ -182,345 +88,196 @@ body {
   height: 100%;
   display: block;
   object-fit: cover;
-  object-position: 50% 45%;
+  object-position: center center;
 }
 
-/* ---- L2 · subject: rising cut-out ridge (FIND hero_house: y:-40% scale:1.3) ---- */
-.layer--subject {
-  z-index: 2;
-  /* anchored to the bottom of the stage; rises + grows on scroll */
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  inset-block-start: 60vh; /* FIND: top:60vh — starts low, sweeps up */
-  height: 100vh;
+/* FIND hero_house motion target. The original FIND house is a very tall PNG;
+   our current desert ridge is wide/short, so keep FIND's top/transform but let
+   the image define its own height instead of disappearing inside 170.8rem. */
+.layer--subject,
+.maskfill__subject {
+  position: absolute;
+  top: 60vh;
+  left: 0;
+  right: 0;
+  z-index: 1;
   transform-origin: bottom center;
-  /* scroll (--p): drift up + zoom in (FIND y:-40%, scale:1.3).
-     entrance (--enter): a touch more zoom that settles on load (FIND scale 1.1→1). */
-  transform: translate3d(0, calc(var(--p) * -40%), 0)
-             scale(calc(1 + var(--p) * 0.3 + (1 - var(--enter)) * 0.1));
-  opacity: calc(0.2 + 0.8 * var(--enter));
-  will-change: transform, opacity;
 }
 .layer--subject picture,
-.layer--subject img {
+.layer--subject img,
+.maskfill__subject picture,
+.maskfill__subject img {
   width: 100%;
   height: auto;
   display: block;
   object-fit: contain;
-  object-position: 50% 100%;
-  filter: drop-shadow(0 12px 40px rgba(26, 20, 16, 0.32));
+  object-position: center top;
 }
 
-/* ---- L3 · maskfill: the subject seen ONLY through the letters
-        (FIND hero_composite — opacity 0→1, y:20% scale:.9) ---- */
+/* FIND hero_composite — second subject copy masked through the logo. */
 .layer--maskfill {
-  z-index: 3;
-  display: grid;
-  place-items: center;
-  /* hidden at rest, revealed across scroll (the letters "fill" with the image) */
-  opacity: var(--p);
-  transform: translate3d(0, calc(var(--p) * 6%), 0) scale(calc(1 - var(--p) * 0.1));
-  will-change: transform, opacity;
+  z-index: 1;
+  opacity: 0;
+  overflow: hidden;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 977 423'%3E%3Ctext x='488.5' y='280' text-anchor='middle' font-family='Arial Black, Arial, sans-serif' font-size='245' font-weight='900' letter-spacing='-12' fill='black'%3EFIND%3C/text%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 977 423'%3E%3Ctext x='488.5' y='280' text-anchor='middle' font-family='Arial Black, Arial, sans-serif' font-size='245' font-weight='900' letter-spacing='-12' fill='black'%3EFIND%3C/text%3E%3C/svg%3E");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  mask-position: center center;
+  -webkit-mask-size: 23.5rem 10.2rem;
+  mask-size: 23.5rem 10.2rem;
+}
+@media (min-width: 768px) {
+  .layer--maskfill {
+    -webkit-mask-size: 97.7rem 42.3rem;
+    mask-size: 97.7rem 42.3rem;
+  }
 }
 
-/* ---- L5 · outline wordmark (crisp hollow letters, on top of the fill;
-        FIND hero_logo — fades out as the fill rises) ---- */
+/* FIND hero_clouds / hero_cloud */
+.layer--clouds { z-index: 2; }
+.cloud {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  object-fit: cover;
+}
+.cloud--start {
+  top: 33.7rem;
+  left: -57.2rem;
+  width: 70.2rem;
+  height: 29.8rem;
+}
+.cloud--end {
+  top: 37.12rem;
+  right: -41.2rem;
+  width: 55.7rem;
+  height: 23.6rem;
+  transform: scaleX(-1);
+}
+@media (min-width: 768px) {
+  .cloud--start {
+    top: 25%;
+    left: -33.72rem;
+    width: 112.4rem;
+    height: 47.7rem;
+  }
+  .cloud--end {
+    top: 20%;
+    right: -33.72rem;
+    width: 93.6rem;
+    height: 39.7rem;
+  }
+}
+
+/* FIND hero_logo — outline only, used for timing/parity. */
 .layer--outline {
-  z-index: 5;
-  display: grid;
-  place-items: center;
-  /* same geometry as L3 so the outline + fill register perfectly (no drift) */
-  transform: translate3d(0, calc(var(--p) * 6%), 0) scale(calc(1 - var(--p) * 0.1));
-  opacity: calc(1 - var(--p) * 0.85);
-  will-change: transform, opacity;
+  position: absolute;
+  top: calc(50% - 5.1rem);
+  left: calc(50% - 11.75rem);
+  z-index: 1;
+  width: 23.5rem;
+  height: 10.2rem;
+  opacity: 0;
+  display: block;
+  transform-origin: center center;
 }
-
-/* shared wordmark SVG sizing — one geometry feeds both the mask and the outline */
+@media (min-width: 768px) {
+  .layer--outline {
+    top: calc(50% - 21.15rem);
+    left: calc(50% - 48.85rem);
+    width: 97.7rem;
+    height: 42.3rem;
+  }
+}
 .wordmark-svg {
-  width: min(78vw, 1000px);
-  height: auto;
+  width: 100%;
+  height: 100%;
   display: block;
   overflow: visible;
 }
-/* outline letters: hollow stroke, no fill */
 .layer--outline .wordmark-svg text {
   fill: transparent;
-  stroke: var(--ivory);
-  stroke-width: 2;
+  stroke: #fff;
+  stroke-width: 3px;
   paint-order: stroke;
-  filter: drop-shadow(0 1px 6px rgba(26, 20, 16, 0.35));
+}
+@media (min-width: 768px) {
+  .layer--outline .wordmark-svg text { stroke-width: 2px; }
 }
 
-/* ---- L4 · clouds: two DISTINCT cut-outs spreading to the sides
-        (FIND hero_clouds: left x:-15%, right x:+15%) ---- */
-.layer--clouds { z-index: 4; }
-.cloud {
-  position: absolute;
-  inset-block-end: 8%;
-  width: 52%;
-  height: auto;
-  opacity: 0.92;
-  will-change: transform, opacity;
-}
-.cloud--start { /* RTL start = right edge */
-  inset-inline-start: -16%;
-  /* entrance slides it in from further out; scroll spreads it back outward (+15%) */
-  transform: translate3d(calc((1 - var(--enter)) * 40% + var(--p) * 15%), 0, 0);
-}
-.cloud--end { /* RTL end = left edge, mirrored, slightly later (45% = stagger feel) */
-  inset-inline-end: -16%;
-  transform: scaleX(-1) translate3d(calc((1 - var(--enter)) * 45% + var(--p) * 15%), 0, 0);
-}
-
-/* ---- L6 · smoke rising (FIND hero_smoke: translateY 70% → up) ---- */
+/* FIND hero_smoke / hero_overlay */
 .layer--smoke {
-  z-index: 6;
-  display: flex;
-  align-items: flex-end;
-  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  height: 45rem;
+  z-index: 3;
+  transform: translateY(70%);
+}
+@media (min-width: 768px) {
+  .layer--smoke { height: 62rem; }
 }
 .smoke__img {
-  width: 130%;
-  margin-inline-start: -15%;
-  height: auto;
-  opacity: calc(0.6 + var(--p) * 0.4);
-  transform: translate3d(0, calc(70% - var(--p) * 60%), 0);
-  will-change: transform, opacity;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: top center;
 }
-
-/* ---- L7 · cream veil dissolving into the next section (FIND hero_overlay) ---- */
 .layer--veil {
-  z-index: 7;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 45%,
-    rgba(245, 239, 230, 0.6) 70%,
-    var(--ivory) 100%
-  );
-  /* whole hero fades to cream over the last third of the scroll */
-  opacity: calc(0.5 + var(--p) * 0.5);
-}
-
-/* ---- L8 · content (FIND hero_content) ---- */
-.layer--content {
-  z-index: 8;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  padding-block-end: clamp(2.5rem, 8vh, 7rem);
-  text-align: center;
-  /* entrance: rises + fades in. scroll: lifts away + fades out. composed. */
-  opacity: calc((1 - var(--p) * 1.15) * var(--enter));
-  transform: translate3d(0, calc(var(--p) * -8% + (1 - var(--enter)) * 24px), 0);
-  will-change: transform, opacity;
-}
-.hero-content {
-  pointer-events: auto;
-  max-width: min(46rem, 92vw);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(0.6rem, 1.5vh, 1.2rem);
-}
-.hero-content__eyebrow {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(0.7rem, 1.6vw, 0.9rem);
-  letter-spacing: 0.28em;
-  text-transform: none;
-  color: var(--brass-deep);
-}
-.hero-content__headline {
-  margin: 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(1.9rem, 5.4vw, 4rem);
-  line-height: 1.06;
-  letter-spacing: -0.01em;
-  color: var(--ink-deep);
-  text-shadow: 0 1px 24px rgba(245, 239, 230, 0.55);
-}
-.word-reveal {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  padding: 0.15em;
-  margin: -0.15em;
-}
-.word-reveal__inner {
-  display: inline-block;
-  transform: translate3d(0, 115%, 0);
-}
-html.no-js .word-reveal__inner { transform: none; }
-@media (prefers-reduced-motion: reduce) {
-  .word-reveal__inner { transform: none; }
-}
-.hero-content__headline-soft { color: var(--brass-deep); }
-.hero-content__sub {
-  margin: 0;
-  font-family: var(--font-body);
-  font-size: clamp(0.95rem, 2vw, 1.25rem);
-  color: color-mix(in srgb, var(--ink-deep) 72%, transparent);
-}
-.hero-content__cta {
-  display: flex;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-block-start: clamp(0.6rem, 1.6vh, 1.4rem);
-}
-.btn {
-  font-family: var(--font-display);
-  font-size: clamp(0.85rem, 1.8vw, 1rem);
-  font-weight: 500;
-  padding: 0.85em 1.9em;
-  border-radius: 999px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.4s var(--ease-cinema),
-              background-color 0.4s var(--ease-cinema),
-              color 0.4s var(--ease-cinema),
-              box-shadow 0.4s var(--ease-cinema);
-}
-.btn--primary {
-  background: var(--brass);
-  color: var(--ink-deep);
-  box-shadow: 0 6px 22px rgba(139, 111, 70, 0.32);
-}
-.btn--primary:hover {
-  background: var(--accent-rose);
-  color: var(--ivory);
-  transform: translateY(-2px);
-}
-.btn--ghost {
-  background: color-mix(in srgb, var(--ivory) 18%, transparent);
-  color: var(--ivory);
-  border: 1px solid rgba(245, 239, 230, 0.6);
-  backdrop-filter: blur(6px);
-}
-.btn--ghost:hover {
-  background: var(--ivory);
-  color: var(--ink-deep);
-  transform: translateY(-2px);
-}
-.btn:focus-visible {
-  outline: 3px solid var(--brass);
-  outline-offset: 4px;
-}
-
-/* scroll cue */
-.scroll-cue {
   position: absolute;
-  inset-block-start: max(2rem, 5vh);
-  inset-inline-end: clamp(1.2rem, 4vw, 3rem);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  opacity: calc(1 - var(--p) * 2);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
+  height: 10rem;
+  z-index: 3;
+  background: linear-gradient(180deg, rgba(255,255,255,0), #fff);
 }
-.scroll-cue__label {
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  letter-spacing: 0.24em;
-  color: var(--brass-deep);
-  writing-mode: vertical-rl;
-}
-.scroll-cue__dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--brass-deep);
-  animation: cue-fall 1.8s var(--ease-cinema) infinite;
-}
-@keyframes cue-fall {
-  0% { transform: translateY(-6px); opacity: 0; }
-  40% { opacity: 1; }
-  100% { transform: translateY(16px); opacity: 0; }
+@media (min-width: 768px) {
+  .layer--veil { height: 30.9rem; }
 }
 
-/* =========================================================================
-   NEXT SECTION
-   ========================================================================= */
+/* Custom GAMOS copy is intentionally off for this FIND-animation QA pass. */
+.layer--content,
+.hero-content,
+.scroll-cue { display: none !important; }
+
 .after {
   position: relative;
   z-index: 0;
   min-height: 100vh;
   display: grid;
   place-items: center;
-  background: var(--ivory);
+  background: #fff;
   padding: 8vh 6vw;
 }
 .after__inner { max-width: 40rem; text-align: center; }
 .after__kicker {
-  font-family: var(--font-wordmark);
+  font-family: "Cinzel", Georgia, serif;
   letter-spacing: 0.3em;
   color: var(--brass);
   margin: 0 0 1rem;
 }
 .after__title {
-  font-family: var(--font-display);
-  font-weight: 600;
   font-size: clamp(2rem, 5vw, 3.4rem);
   margin: 0 0 1rem;
-  color: var(--ink-deep);
 }
 .after__body {
-  font-family: var(--font-body);
   font-size: 1.1rem;
   line-height: 1.7;
-  color: color-mix(in srgb, var(--ink-deep) 76%, transparent);
+  color: rgba(21, 23, 23, 0.76);
 }
 
-/* =========================================================================
-   FALLBACKS — never blank, never half-revealed (avoid FIND's white-screen bug)
-   ========================================================================= */
-
-/* No-JS: collapse the 500vh track to a single 100vh frozen composition so the
-   page is a finished hero. The letters are filled (maskfill on), a faint outline
-   sits over them, the subject + clouds + smoke sit in a settled mid-state. */
-.no-js .hero_root {
-  height: 100vh;
-  margin-block-end: 0;
-}
-.no-js .hero_top { position: relative; }
-.no-js .layer--subject { transform: none; opacity: 1; inset-block-start: 0; }
-.no-js .layer--maskfill { opacity: 1; transform: none; }
-.no-js .layer--outline { opacity: 0.18; transform: none; }
-.no-js .smoke__img { transform: translateY(20%); opacity: 0.85; }
-.no-js .layer--veil { opacity: 0.7; }
-.no-js .scroll-cue { display: none; }
-/* clouds: --enter defaults to 1 so the (1-enter)*40% term is 0 → both in frame */
-
-/* Reduced motion: keep the layered look, kill the scrub + idle loops.
-   The scene renders at a tasteful mid-state and simply scrolls away. */
 @media (prefers-reduced-motion: reduce) {
-  .hero_root { height: 100vh; margin-block-end: 0; }
+  .hero_root { height: 100vh; margin-bottom: 0; visibility: visible; }
   .hero_top { position: relative; }
-  .layer--sky { transform: none; }
-  .layer--subject { transform: none; opacity: 1; inset-block-start: 0; }
-  .layer--maskfill { opacity: 1; transform: none; }
-  .layer--outline { transform: none; opacity: 0.2; }
-  .cloud--start, .cloud--end { transform: none; }
-  .cloud--end { transform: scaleX(-1); }
-  .smoke__img { transform: translateY(20%); opacity: 0.85; }
-  .layer--veil { opacity: 0.7; }
-  .layer--content { opacity: 1; transform: none; }
-  .scroll-cue { display: none; }
-  .btn { transition: none; }
-}
-
-/* Mobile tuning */
-@media (max-width: 768px) {
-  .wordmark-svg { width: 86vw; }
-  /* tighten EVENTS tracking so it doesn't overflow the narrow viewport */
-  .wordmark-svg__sm { letter-spacing: 20px; }
-  .cloud { width: 78%; }
-  .cloud--start { inset-inline-start: -22%; }
-  .cloud--end { inset-inline-end: -22%; }
-  .layer--subject { inset-block-start: 56vh; }
-  .hero-content__cta { width: 100%; }
-  .btn { flex: 1 1 auto; }
+  .layer--subject,
+  .maskfill__subject { top: 0; height: 100vh; }
+  .layer--maskfill { opacity: 1; }
+  .layer--smoke { transform: translateY(20%); }
 }
